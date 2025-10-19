@@ -1,0 +1,1429 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Món quà dành riêng cho Anh 💝</title>
+    <link rel="icon" type="image/x-icon" href="data:image/x-icon;,">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <!-- Use Rubik (rounded & friendly) with Vietnamese subset + Dancing Script for signature styles -->
+    <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500;600;700;800&family=Dancing+Script:wght@700&display=swap&subset=vietnamese" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js"></script>
+    <style>
+        :root{
+            /* Rubik is rounded and clean (similar friendly tone to Quiz.com) and supports Vietnamese glyphs */
+            --ui-font: 'Rubik', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', 'Segoe UI Emoji';
+            --accent: #ff69b4;
+            --muted: #6b7280;
+        }
+        /* Apply Rubik globally and make headings/buttons bold and confident */
+        body {
+            font-family: var(--ui-font);
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            font-weight: 400;
+            letter-spacing: 0.01em;
+            text-rendering: optimizeLegibility;
+            background: linear-gradient(135deg, #fff5f5 0%, #fff0f5 100%);
+            color: #5a2d82;
+            transition: all 0.5s ease;
+            overflow-x: hidden;
+        }
+        /* Force the UI font across all elements (including pseudo elements) to avoid mixed fonts
+           This uses a universal selector with !important to override utility classes and inline styles
+           that don't use !important. Inline styles with their own !important may still override.
+        */
+        *, *::before, *::after {
+            font-family: var(--ui-font) !important;
+            -webkit-font-smoothing: antialiased !important;
+            -moz-osx-font-smoothing: grayscale !important;
+        }
+        /* Ensure all typographic elements use the new UI font even if inline styles exist */
+        h1,h2,h3,h4,h5,h6,button,input,textarea,select,p,div,span {
+            font-family: var(--ui-font) !important;
+        }
+        h1,h2 { font-weight: 700; letter-spacing: 0.015em; }
+        /* smaller, responsive login title helper */
+        .login-title {
+            font-size: 1.25rem; /* base smaller size */
+            line-height: 1.15;
+        }
+        button, .tab-active { font-weight: 700; }
+        .heart {
+            position: absolute;
+            pointer-events: none;
+            animation: float 4s ease-in-out infinite;
+            opacity: 0.7;
+        }
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+        .password-input {
+            border: 2px solid #ffb6c1;
+            border-radius: 25px;
+            padding: 12px 20px;
+            font-size: 16px;
+            outline: none;
+            transition: all 0.3s;
+            font-weight: 600;
+            letter-spacing: 0.025em;
+            font-family: var(--ui-font);
+        }
+.password-input:focus {
+            border-color: #ff69b4;
+            box-shadow: 0 0 10px rgba(255, 105, 180, 0.5);
+        }
+        .letter-container {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 16px;
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
+            font-weight: 500;
+            padding: 20px; /* default padding for small screens */
+            min-height: 320px; /* ensure visible panel area */
+            transition: all 260ms ease;
+        }
+        @media (min-width: 640px) {
+            .letter-container { padding: 28px; min-height: 420px; }
+        }
+        @media (min-width: 1024px) {
+            .letter-container { padding: 36px; min-height: 520px; }
+        }
+        /* Scale typography inside panels so content matches the larger panel size
+           Use higher-specificity + !important to override Tailwind utility classes
+           so the panel text truly scales up. */
+        .letter-container, .letter-container * {
+            font-size: 1.05rem !important; /* base for small screens */
+            line-height: 1.45 !important;
+        }
+        @media (min-width: 640px) {
+            .letter-container, .letter-container * { font-size: 1.125rem !important; }
+        }
+        @media (min-width: 1024px) {
+            .letter-container, .letter-container * { font-size: 1.25rem !important; }
+        }
+        /* Ensure headings inside panels get an appropriate scale */
+        .letter-container h1, .letter-container h2, .letter-container h3 { line-height: 1.2; }
+.reminder-item {
+            background: rgba(255, 255, 255, 0.8);
+            border-left: 4px solid #ff69b4;
+            transition: all 0.3s;
+        }
+        /* Gift / reminder closed/open styles */
+        .reminders-grid { display: grid; grid-template-columns: repeat(1, minmax(0,1fr)); gap: 1rem; }
+        @media (min-width: 640px) { .reminders-grid { grid-template-columns: repeat(2, minmax(0,1fr)); } }
+        /* gift frame styling */
+        .reminders-area {
+            background: linear-gradient(180deg, rgba(255,245,250,0.7), rgba(255,240,245,0.55));
+            border-radius: 16px;
+            padding: 18px;
+            box-shadow: inset 0 1px 0 rgba(255,255,255,0.6);
+        }
+
+        .gift {
+            background: linear-gradient(180deg, #fff, #fffefc);
+            border-radius: 14px;
+            padding: 14px 14px 16px 14px;
+            box-shadow: 0 10px 28px rgba(90,45,130,0.06), 0 2px 6px rgba(0,0,0,0.04);
+            display: flex;
+            flex-direction: column;
+            align-items: stretch;
+            cursor: pointer;
+            min-height: 96px;
+            border: 1px solid rgba(139,92,246,0.06);
+            position: relative;
+            overflow: visible;
+        }
+        /* ribbon / bow decoration */
+        .gift::before {
+            content: '';
+            position: absolute;
+            left: 12px; right: 12px; top: 8px;
+            height: 8px;
+            border-radius: 6px;
+            background: linear-gradient(90deg, rgba(255,105,180,0.12), rgba(139,92,246,0.08));
+            box-shadow: 0 6px 14px rgba(139,92,246,0.03) inset;
+            transform-origin: center;
+            pointer-events: none;
+        }
+        .gift .ribbon-badge {
+            position: absolute; left: 14px; top: -8px; transform: translateY(-50%);
+            background: linear-gradient(180deg,#ff6fb3,#ff4d9e); color: white; padding: 6px 10px; border-radius: 999px; font-weight:700; font-size:0.85rem; box-shadow: 0 6px 18px rgba(255,77,158,0.12);
+        }
+        /* subtle shine */
+        .gift::after { content: ''; position: absolute; top: 18px; right: 12px; width: 36px; height: 10px; background: linear-gradient(90deg, rgba(255,255,255,0.9), rgba(255,255,255,0.1)); transform: rotate(-20deg); opacity: 0.9; border-radius: 6px; pointer-events: none; }
+        .gift .cover {
+            display:flex;align-items:center;gap:12px;width:100%;
+        }
+        .gift .icon { font-size:28px; width:44px; height:44px; display:grid; place-items:center; border-radius:10px; background:linear-gradient(180deg,#fff0f6,#fff); box-shadow:0 4px 12px rgba(255,105,180,0.06); }
+        .gift .label { font-weight:700; color:var(--accent); }
+        .gift .gift-msg { margin-top:12px; color:#3b2a54; font-size:0.98rem; display:none; }
+        .gift.opened { cursor:default; }
+        .gift.opened .gift-msg { display:block; }
+        .gift .cover .peek { margin-left:auto; font-size:0.9rem; color:var(--muted); }
+        .gift .cover .peek.open { color:var(--accent); }
+    /* Unbox animation and smooth reveal */
+    .gift { transition: transform 260ms cubic-bezier(.2,.9,.2,1); }
+    .gift .cover { transition: transform 320ms ease, box-shadow 320ms ease; }
+    .gift.opened .cover { transform: translateY(-6px) scale(1.01); box-shadow: 0 12px 28px rgba(139,92,246,0.08); }
+    .gift .gift-msg { max-height: 0; overflow: hidden; opacity: 0; transform: translateY(-6px); transition: max-height 420ms ease, opacity 360ms ease, transform 360ms ease; }
+    .gift.opened .gift-msg { max-height: 240px; opacity: 1; transform: translateY(0); }
+    .gift.unbox { animation: unbox-pop 520ms cubic-bezier(.2,.9,.2,1); }
+    @keyframes unbox-pop { 0% { transform: scale(.96) translateY(0); } 40% { transform: scale(1.08) translateY(-8px); } 100% { transform: scale(1) translateY(0); } }
+    /* hover/focus micro-interaction */
+    .gift:focus, .gift:hover { transform: translateY(-6px); box-shadow: 0 14px 36px rgba(139,92,246,0.06); }
+    .gift:active { transform: translateY(-2px) scale(.995); }
+    /* make gifts keyboard-focusable */
+    .gift[tabindex] { outline: none; }
+        .reminder-item:hover {
+            transform: translateX(5px);
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+        }
+        .tab-active {
+            background-color: #ff69b4 !important;
+            color: white !important;
+            transform: scale(1.05);
+            box-shadow: 0 4px 15px rgba(255, 105, 180, 0.4);
+        }
+        .button-strong{font-weight:700;letter-spacing:0.02em}
+        .muted{color:var(--muted)}
+.envelope {
+            transition: all 0.3s;
+        }
+        .envelope:hover {
+            transform: scale(1.05);
+        }
+        .typed {
+            border-right: 3px solid #ff69b4;
+            animation: blink 0.5s step-end infinite alternate;
+        }
+        /* Close-modal CTA styling to match sign-in button */
+        #close-modal {
+            background: linear-gradient(180deg, #ff6fb3, #ff4d9e);
+            color: white;
+            padding: 14px 28px;
+            border-radius: 9999px;
+            box-shadow: 0 10px 30px rgba(255,77,158,0.18);
+            border: none;
+            font-size: 1.05rem;
+            font-weight: 700;
+            transform-origin: center;
+            transition: transform 220ms ease, box-shadow 220ms ease, opacity 220ms ease;
+        }
+        #close-modal:hover { transform: translateY(-4px) scale(1.03); box-shadow: 0 18px 46px rgba(255,77,158,0.22); }
+        #close-modal:active { transform: translateY(-2px) scale(1.01); }
+        /* subtle entrance for the CTA when shown */
+        #close-modal.cta-in { animation: cta-pop 700ms cubic-bezier(.2,.9,.2,1); }
+        @keyframes cta-pop { 0% { transform: scale(.88); opacity: 0 } 60% { transform: scale(1.04); opacity: 1 } 100% { transform: scale(1); opacity: 1 } }
+        /* Decorative shapes for main content */
+        .decor-shape {
+            position: absolute;
+            border-radius: 12px;
+            opacity: 0.12;
+            filter: blur(6px);
+            transform: translateZ(0);
+        }
+        .decor-blob { border-radius: 40% 60% 50% 50%; }
+        .fade-up { transform: translateY(20px); opacity: 0; transition: all 600ms cubic-bezier(.2,.8,.2,1); }
+        .fade-up.show { transform: translateY(0); opacity: 1; }
+        /* Letter paper styling */
+        .letter-paper {
+            background: linear-gradient(180deg, #fff 0%, #fffefc 100%);
+            border: 1px solid rgba(0,0,0,0.04);
+            box-shadow: 0 8px 30px rgba(90,45,130,0.06);
+        }
+        .letter-header .stamp { font-size: 0.9rem; }
+        .stamp { border-radius: 9999px; width: 56px; height: 56px; display: flex; align-items: center; justify-content: center; box-shadow: 0 3px 10px rgba(139,92,246,0.06); }
+        .letter-body { white-space: pre-wrap; min-height: 160px; }
+        .signature { font-family: 'Dancing Script', 'Poppins', cursive; font-size: 1.1rem; }
+        @media (max-width: 640px) {
+            .letter-paper { padding: 16px; }
+            .stamp { width: 44px; height: 44px; }
+        }
+        /* Interactive tab styles */
+        #interactive-content button { min-width: 110px; }
+        #no-btn.running { transition: none; }
+        /* Make the interactive tab's white box shorter at the bottom and vertically center its content */
+        /* This targets the specific panel so other letter/reminder panels are unaffected */
+        /* Apply layout changes only when the interactive panel is visible */
+        #interactive-content.letter-container:not(.hidden) {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            /* reduce vertical footprint and tighten bottom space */
+            padding-top: 1rem; /* ~16px */
+            padding-bottom: 1rem !important; /* shorten bottom padding and override utilities if needed */
+            min-height: 160px !important; /* make the panel shorter on small screens */
+        }
+        /* keep the button-row spacing tidy inside the centered layout */
+        #interactive-content .flex.items-center {
+            gap: 0.75rem;
+        }
+        @media (min-width: 640px) {
+            #interactive-content.letter-container:not(.hidden) {
+                padding-top: 1.25rem;
+                padding-bottom: 1.25rem !important;
+                min-height: 180px !important;
+            }
+        }
+        .explosion-heart { position: absolute; pointer-events: none; font-size: 18px; will-change: transform, opacity; }
+        /* Emphasized interactive hint styling */
+        .interactive-hint-strong {
+            font-size: 1.05rem;
+            font-weight: 800;
+            color: #7b0950; /* deeper pink/purple */
+            background: linear-gradient(90deg, rgba(255,230,240,0.98), rgba(255,245,250,0.98));
+            padding: 8px 12px;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(139,92,246,0.08), 0 3px 8px rgba(255,105,180,0.06);
+            display: inline-block;
+            transition: transform 260ms cubic-bezier(.2,.9,.2,1), box-shadow 260ms ease, opacity 260ms ease;
+        }
+        .interactive-hint-pop { animation: hint-pop 520ms cubic-bezier(.2,.9,.2,1); }
+        /* make forgot password more prominent */
+        #forgot-btn {
+            background: rgba(255, 105, 180, 0.08);
+            padding: 6px 10px;
+            border-radius: 9999px;
+            box-shadow: 0 4px 14px rgba(255,105,180,0.08);
+            transition: transform 180ms ease, box-shadow 180ms ease, background 180ms ease;
+            border: 1px solid rgba(255,105,180,0.12);
+        }
+        #forgot-btn:hover { transform: translateY(-3px) scale(1.02); box-shadow: 0 8px 26px rgba(255,105,180,0.12); background: rgba(255,105,180,0.12); }
+        @keyframes pulse-quiet { 0% { box-shadow: 0 0 0 0 rgba(255,105,180,0.06);} 70% { box-shadow: 0 0 0 8px rgba(255,105,180,0.02);} 100% { box-shadow: 0 0 0 0 rgba(255,105,180,0);} }
+        #forgot-btn.pulse { animation: pulse-quiet 2600ms infinite; }
+        /* Hint styling (bigger and more prominent) */
+        #hint {
+            display: none; /* hidden by default; only shown when there's content */
+            margin: 1rem auto 0 auto;
+            color: #7a044f; /* deeper pink/purple for contrast */
+            background: linear-gradient(90deg, rgba(255,230,240,0.98), rgba(255,245,250,0.98));
+            padding: 8px 14px;
+            border-radius: 14px;
+            font-size: 1rem;
+            font-weight: 700;
+            box-shadow: 0 8px 22px rgba(217,70,170,0.10), 0 2px 6px rgba(90,45,130,0.06);
+            transition: transform 260ms cubic-bezier(.2,.9,.2,1), opacity 260ms ease, box-shadow 260ms ease, filter 260ms ease;
+            opacity: 0.98;
+            max-width: 420px;
+            text-align: center;
+            border: 1px solid rgba(255,105,180,0.08);
+            backdrop-filter: blur(4px);
+        }
+        /* visible state: stronger glow and lift */
+        #hint.visible {
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 18px 50px rgba(255,105,180,0.12), 0 6px 18px rgba(139,92,246,0.06);
+            filter: drop-shadow(0 6px 18px rgba(255,105,180,0.06));
+        }
+        /* pop animation when hint updates */
+        @keyframes hint-pop { 0% { transform: scale(.96); opacity: .85 } 50% { transform: scale(1.08); opacity: 1 } 100% { transform: scale(1); opacity: 1 } }
+        #hint.hint-pop { animation: hint-pop 520ms cubic-bezier(.2,.9,.2,1); }
+    /* Lovely background layer (radial glow + floating petals) */
+    .lovely-layer { position: absolute; inset: 0; pointer-events: none; overflow: visible; z-index: 0 }
+    .lovely-radial { position: absolute; width: 60vmax; height: 60vmax; left: 50%; top: 10%; transform: translateX(-50%); background: radial-gradient(circle at 30% 30%, rgba(255,182,193,0.16), transparent 28%), radial-gradient(circle at 70% 70%, rgba(221,160,221,0.12), transparent 24%); filter: blur(36px); opacity: 0; transition: opacity 900ms ease; }
+    .lovely-petal { position: absolute; width: 14px; height: 22px; background: linear-gradient(180deg, rgba(255,255,255,0.95), rgba(255,105,180,0.95)); border-radius: 50% 50% 40% 60%; transform-origin: center; opacity: 0; pointer-events: none }
+    .petal-float { animation: petalUp 4200ms linear forwards; }
+    @keyframes petalUp { to { transform: translateY(-260px) rotate(45deg) scale(0.9); opacity: 0; } }
+        @keyframes blink {
+            50% { border-color: transparent; }
+        }
+    </style>
+</head>
+<body class="min-h-screen flex items-center justify-center p-4">
+<!-- Password Gate -->
+    <div id="password-screen" class="w-full max-w-2xl mx-auto">
+        <div class="bg-white/90 backdrop-blur-sm rounded-2xl shadow-xl p-12 md:p-16 mt-8 text-center">
+            <div class="mb-4 flex items-center justify-center">
+                <div class="w-20 h-20 md:w-28 md:h-28 rounded-full bg-pink-50 flex items-center justify-center text-3xl md:text-4xl">💌</div>
+            </div>
+            <h2 class="login-title text-2xl md:text-3xl font-bold mb-4">Đăng nhập vào món quà của bạn</h2>
+
+            <div class="relative mb-6">
+                <input type="password" id="password-input" class="password-input w-full py-4" placeholder="Nhập mật khẩu..." aria-label="password">
+                
+            </div>
+
+            <div class="flex items-center justify-end mb-4 text-sm">
+                <button id="forgot-btn" class="text-pink-600 hover:underline">Quên mật khẩu?</button>
+            </div>
+
+            <button id="submit-btn" class="w-full bg-pink-500 hover:bg-pink-600 text-white font-medium py-4 px-8 rounded-full transition duration-300 transform hover:scale-105 text-lg md:text-xl">
+                Mở quà
+            </button>
+
+            <p id="hint" class="mt-4 text-pink-600 italic text-sm"></p>
+
+            
+    </div>
+    <!-- Forgot-password warning placed under login card -->
+        <div id="forgot-toast" aria-live="polite" role="alert" class="mt-6 max-w-2xl mx-auto opacity-0 transition-opacity duration-300 z-60 pointer-events-none">
+            <div class="w-full bg-yellow-50 border-l-4 border-yellow-400 text-yellow-900 px-6 py-4 rounded shadow flex items-start gap-3 pointer-events-auto">
+                <svg class="w-5 h-5 mt-1 text-yellow-700" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.681-1.36 3.446 0l5.518 9.803A1.75 1.75 0 0 1 16.5 16.5H3.5a1.75 1.75 0 0 1-1.72-2.598L8.257 3.1zM11 13a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm-1-6a.75.75 0 0 0-.75.75v3.5c0 .414.336.75.75.75s.75-.336.75-.75v-3.5A.75.75 0 0 0 10 7z" clip-rule="evenodd"/></svg>
+                <div class="flex-1">
+                    <div class="font-semibold">Cảnh báo</div>
+                    <div class="text-sm">TỰ NHỚ ĐI CHỊ HAI 😏</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Main Content (hidden until password is correct) -->
+    <div id="main-content" class="hidden w-full max-w-4xl mx-auto relative" style="font-size: 1.2rem;">
+        <!-- Decorative container for subtle shapes -->
+        <div id="main-decor" aria-hidden="true" class="absolute inset-0 pointer-events-none overflow-hidden">
+        </div>
+        <div class="text-center mb-10">
+            <h1 class="text-4xl md:text-5xl font-bold mb-4">Ngày Phụ Nữ Việt Nam 20/10</h1>
+            <p class="text-xl text-pink-600 font-bold">Dành tặng Anh - người Bảo thương nhất 💖</p>
+</div>
+        <!-- Tabs -->
+        <div class="flex justify-center mb-10 w-full space-x-6">
+            <button id="letter-tab" class="tab-active bg-pink-100 hover:bg-pink-200 text-pink-700 font-medium py-4 px-8 rounded-full shadow-md transition-all duration-300 flex items-center text-xl">
+                <span class="mr-3">💌</span> Bức thư gửi Anh
+            </button>
+            <button id="reminders-tab" class="bg-pink-100 hover:bg-pink-200 text-pink-700 font-medium py-4 px-8 rounded-full shadow-md transition-all duration-300 flex items-center text-xl">
+                <span class="mr-3">💝</span> Những lời nhắn nhỏ
+            </button>
+            <button id="interactive-tab" class="bg-pink-100 hover:bg-pink-200 text-pink-700 font-medium py-4 px-8 rounded-full shadow-md transition-all duration-300 flex items-center text-xl">
+                <span class="mr-3">😈</span> Hỏi xoáy đáp xoay
+            </button>
+</div>
+<!-- Letter Tab Content -->
+        <div id="letter-content" class="letter-container p-6 md:p-8 transition-all duration-500 ease-in-out transform">
+            <div class="text-center cursor-pointer envelope" id="envelope">
+                <!-- stylized letter SVG replaces the square image -->
+                <div class="w-32 h-32 mx-auto mb-4 flex items-center justify-center" aria-hidden="true">
+                    <svg class="w-28 h-28" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Letter icon">
+                        <defs>
+                            <linearGradient id="g1" x1="0" x2="1" y1="0" y2="1">
+                                <stop offset="0%" stop-color="#fff" />
+                                <stop offset="100%" stop-color="#fff8f9" />
+                            </linearGradient>
+                        </defs>
+                        <rect x="4" y="8" width="56" height="40" rx="4" fill="url(#g1)" stroke="#f3c0da" stroke-width="1.6"/>
+                        <!-- folded corner -->
+                        <path d="M44 8 L56 20 L44 20 Z" fill="#ffe9f2" opacity="0.9" />
+                        <!-- envelope flap line -->
+                        <path d="M8 16 L32 36 L56 16" fill="none" stroke="#ffb6d0" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                        <!-- seal removed per request -->
+                    </svg>
+                </div>
+                <p class="text-lg">Nhấn vào phong bì để xem thư 💌</p>
+            </div>
+
+            <!-- Styled letter paper -->
+            <div id="letter-text" class="hidden mt-8 text-left flex justify-center">
+                <article class="letter-paper relative w-full max-w-3xl bg-white p-8 shadow-lg rounded-lg" role="article" aria-label="Letter">
+                    <header class="letter-header flex justify-between items-start mb-6">
+                        <div>
+                            <p class="text-sm text-gray-500">Ngày 20 tháng 10 năm 2025</p>
+                            <h2 class="text-2xl font-semibold mt-2">Gửi Anh,</h2>
+                        </div>
+                        <div class="stamp bg-pink-50 text-pink-600 rounded-full w-16 h-16 flex items-center justify-center shadow-sm">💖</div>
+                    </header>
+
+                    <div class="letter-body leading-relaxed text-lg text-gray-800" id="typed-text">
+                        <!-- Letter content will be typed here -->
+                    </div>
+
+                    <footer class="signature mt-8 text-right">
+                        <!-- Hidden by default; revealed when typing completes -->
+                        <div id="closing-phrase" class="mt-2 text-pink-600 font-bold" aria-hidden="true" style="opacity:0; transform: translateY(8px) scale(0.98); transition: all 420ms cubic-bezier(.2,.9,.2,1);">Thương nhiềuuu ❤️</div>
+                    </footer>
+
+                    <!-- subtle paper edges -->
+                    <div class="absolute inset-0 pointer-events-none" aria-hidden="true">
+                        <svg class="w-full h-full" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none" viewBox="0 0 100 100">
+                            <rect x="0" y="0" width="100" height="100" fill="none" stroke="rgba(0,0,0,0.03)" stroke-width="0.6" />
+                        </svg>
+                    </div>
+                </article>
+            </div>
+        </div>
+        <!-- Reminders Tab Content -->
+        <div id="reminders-content" class="hidden letter-container p-6 md:p-8 transition-all duration-500 ease-in-out transform">
+            <h2 class="text-3xl font-bold mb-8 text-center">Những điều Bảo muốn nhắn đến Anh</h2>
+            <div class="reminders-area">
+                <div id="reminders-grid" class="reminders-grid">
+                <!-- Reminder gift boxes will be rendered here by JS. Unopened gifts are shown as closed boxes. -->
+                </div>
+            </div>
+            
+            <div class="mt-8 text-center">
+                <button id="add-hearts" class="bg-pink-500 hover:bg-pink-600 text-white font-medium py-4 px-8 rounded-full transition duration-300 transform hover:scale-105 text-lg md:text-xl shadow-md button-strong">
+                    Nhấn nhiều lần 👇
+                </button>
+            </div>
+        </div>
+        <!-- Interactive Tab Content -->
+        <div id="interactive-content" class="hidden letter-container p-6 md:p-8 transition-all duration-500 ease-in-out transform text-center">
+            <h2 class="text-3xl font-bold mb-6">Thử một câu hỏi nhỏ nè</h2>
+            <p class="mb-6 text-lg">Bảo hỏi nhé: <strong>Có thương tui hong?</strong></p>
+            <div class="flex items-center justify-center gap-6">
+                <button id="yes-btn" class="bg-pink-500 hover:bg-pink-600 text-white py-3 px-6 rounded-full shadow-md button-strong">Có</button>
+                <button id="no-btn" class="bg-white border-2 border-pink-200 text-pink-600 py-3 px-6 rounded-full shadow-md button-strong relative">Không</button>
+            </div>
+            <p id="interactive-hint" class="mt-6 text-sm muted">Câu trả lời được gửi thẳng tới chủ của web này 😂</p>
+        </div>
+    </div>
+    <!-- Success Modal - Full Page -->
+    <div id="success-modal" class="fixed inset-0 bg-gradient-to-br from-pink-100 to-purple-100 flex flex-col items-center justify-center hidden z-50 p-4 overflow-auto">
+<button id="back-button" class="absolute top-4 left-4 bg-pink-500 hover:bg-pink-600 text-white font-medium py-2 px-4 rounded-full transition z-50">
+← Quay lại
+        </button>
+        <div class="max-w-lg text-center space-y-6 flex flex-col items-center justify-center h-screen">
+            <div id="success-message" class="text-4xl md:text-5xl font-bold">
+                <!-- Message will be typed here -->
+            </div>
+            <button id="close-modal" class="bg-pink-500 hover:bg-pink-600 text-white py-3 px-8 rounded-full transition transform hover:scale-105 hidden text-xl mt-8">
+                Đến món quà của Anh 💝
+            </button>
+        </div>
+</div>
+<script>
+        // Password verification
+        const correctPassword = "17072005"; // Change this to your desired password
+        const hints = [
+            "Mật khẩu gồm 8 số 😘",
+            "8 số liên quan tới Anh 💕",
+            "Ngày Anh sinh ra thì sao ta 💌",
+            "DDMMYYYY 😉",
+            "17072005 nhen ❤️"
+        ];
+let hintIndex = 0;
+        
+        document.getElementById('submit-btn').addEventListener('click', checkPassword);
+        document.getElementById('password-input').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') checkPassword();
+        });
+            
+        
+        function checkPassword() {
+            const input = document.getElementById('password-input').value;
+            const hintElement = document.getElementById('hint');
+            if (input === correctPassword) {
+// Correct password
+                document.getElementById('password-screen').classList.add('hidden');
+                document.getElementById('success-modal').classList.remove('hidden');
+                document.getElementById('back-button').classList.remove('hidden');
+                showSuccessMessage();
+} else {
+                // Wrong password - show hint only if user entered something
+                if (input && input.toString().trim().length > 0) {
+                    hintElement.textContent = hints[hintIndex % hints.length];
+                    hintIndex++;
+                } else {
+                    // no input — keep hint hidden
+                    hintElement.textContent = '';
+                }
+                
+                // Shake animation
+                anime({
+                    targets: '#password-input',
+                    translateX: [10, -10, 10, -10, 0],
+                    duration: 500
+                });
+            }
+        }
+        // make hint pop when its text changes
+        (function() {
+            const hintEl = document.getElementById('hint');
+            const inputEl = document.getElementById('password-input');
+            if (!hintEl || !window.MutationObserver) return;
+            // small helper to show the hint (size it to the input and add visible state)
+                function showHint() {
+                // compute and clamp max-width to input width if available
+                try {
+                    if (inputEl && inputEl.getBoundingClientRect) {
+                        const w = Math.min(420, Math.floor(inputEl.getBoundingClientRect().width));
+                        hintEl.style.maxWidth = w + 'px';
+                    } else {
+                        hintEl.style.maxWidth = '';
+                    }
+                } catch (e) { hintEl.style.maxWidth = ''; }
+                    // ensure it's rendered so animations can run
+                    hintEl.style.display = 'block';
+                    // small reflow to ensure styles apply
+                    void hintEl.offsetWidth;
+                    hintEl.classList.add('visible');
+                    // auto-hide visible state after a short duration
+                    clearTimeout(hintEl._hideTimeout);
+                    clearTimeout(hintEl._hideDisplayTimeout);
+                    hintEl._hideTimeout = setTimeout(() => {
+                        hintEl.classList.remove('visible');
+                        // hide element after the pop animation finishes
+                        hintEl._hideDisplayTimeout = setTimeout(() => {
+                            // only hide if content still empty or not visible
+                            if (!hintEl.classList.contains('visible') && (!hintEl.textContent || hintEl.textContent.trim().length === 0)) {
+                                hintEl.style.display = 'none';
+                            } else if (!hintEl.classList.contains('visible')) {
+                                // if content still present, keep displayed but not visible
+                                // leave display:block so user can interact/read
+                            }
+                        }, 360);
+                    }, 2400);
+            }
+
+            const mo = new MutationObserver(() => {
+                // restart pop animation
+                hintEl.classList.remove('hint-pop');
+                // force reflow to restart animation
+                void hintEl.offsetWidth;
+                // if hint has content, size and show it
+                if (hintEl.textContent && hintEl.textContent.trim().length > 0) {
+                    showHint();
+                } else {
+                    // nothing to show — hide immediately
+                    hintEl.classList.remove('visible');
+                    hintEl.style.maxWidth = '';
+                    clearTimeout(hintEl._hideTimeout);
+                    clearTimeout(hintEl._hideDisplayTimeout);
+                    hintEl.style.display = 'none';
+                }
+                hintEl.classList.add('hint-pop');
+            });
+            mo.observe(hintEl, { childList: true, characterData: true, subtree: true });
+        })();
+        // Custom success message with typing animation
+        const successMessage = "Giỏi zạy ta mở được rồi này, nhận dịp 20 tháng 10 Bảo làm món quả nhỏ này, mong Anh sẽ thích nó nhen 🥰";
+        // Back button functionality - reset everything and return to password screen
+        document.getElementById('back-button').addEventListener('click', function() {
+            // Hide success modal and main content, show password screen
+            const successModal = document.getElementById('success-modal'); if (successModal) successModal.classList.add('hidden');
+            const main = document.getElementById('main-content'); if (main) main.classList.add('hidden');
+            const pwd = document.getElementById('password-screen'); if (pwd) pwd.classList.remove('hidden');
+
+            // Clear password input and hint
+            const pwdInput = document.getElementById('password-input'); if (pwdInput) pwdInput.value = '';
+            const hintEl = document.getElementById('hint'); if (hintEl) { hintEl.textContent = ''; hintEl.style.display = 'none'; }
+
+            // Reset tabs to default
+            const letterContent = document.getElementById('letter-content'); if (letterContent) letterContent.classList.remove('hidden');
+            const remindersContent = document.getElementById('reminders-content'); if (remindersContent) remindersContent.classList.add('hidden');
+            const interactiveContent = document.getElementById('interactive-content'); if (interactiveContent) interactiveContent.classList.add('hidden');
+            const letterTab = document.getElementById('letter-tab'); if (letterTab) letterTab.classList.add('tab-active');
+            const remindersTab = document.getElementById('reminders-tab'); if (remindersTab) remindersTab.classList.remove('tab-active');
+            const interactiveTab = document.getElementById('interactive-tab'); if (interactiveTab) interactiveTab.classList.remove('tab-active');
+
+            // Reset letter UI: hide typed text, show envelope, hide closing phrase
+            const letterText = document.getElementById('letter-text'); if (letterText) letterText.classList.add('hidden');
+            const envelope = document.getElementById('envelope'); if (envelope) envelope.classList.remove('hidden');
+            const closing = document.getElementById('closing-phrase'); if (closing) { closing.style.opacity = '0'; closing.style.transform = 'translateY(8px) scale(0.98)'; closing.setAttribute('aria-hidden','true'); }
+
+            // Remove any animated hearts (initial or explosion)
+            document.querySelectorAll('.explosion-heart, .heart').forEach(e => e.remove());
+
+            // Reset interactive tab state
+            try {
+                if (typeof resetInteractive === 'function') resetInteractive();
+                const noBtn = document.getElementById('no-btn');
+                if (noBtn && typeof resetRunAway === 'function') resetRunAway(noBtn);
+                if (typeof setInteractiveHint === 'function') setInteractiveHint('Câu trả lời này được gửi thẳng tới chủ của web này 😈');
+            } catch (e) { /* ignore */ }
+
+            // Reset reminders: clear opened set and re-render
+            try {
+                if (window._reminders && window._reminders.opened) {
+                    if (typeof window._reminders.opened.clear === 'function') window._reminders.opened.clear();
+                    else window._reminders.opened = new Set();
+                    if (typeof window._reminders.render === 'function') window._reminders.render();
+                }
+            } catch (e) { /* ignore */ }
+
+            // Hide any close-modal CTA and global back button
+            const closeBtn = document.getElementById('close-modal'); if (closeBtn) closeBtn.classList.add('hidden');
+            const globalBack = document.getElementById('global-back-btn'); if (globalBack) globalBack.classList.add('hidden');
+        });
+        document.getElementById('close-modal').addEventListener('click', function() {
+            document.getElementById('success-modal').classList.add('hidden');
+            document.getElementById('main-content').classList.remove('hidden');
+            
+            // Reset tabs to default state
+            document.getElementById('letter-content').classList.remove('hidden');
+            document.getElementById('reminders-content').classList.add('hidden');
+            document.getElementById('interactive-content').classList.add('hidden');
+            document.getElementById('letter-tab').classList.add('tab-active');
+            document.getElementById('reminders-tab').classList.remove('tab-active');
+            document.getElementById('interactive-tab').classList.remove('tab-active');
+            
+            // Smooth page transition
+            anime({
+                targets: '#main-content',
+                opacity: [0, 1],
+                translateY: [20, 0],
+                duration: 800,
+                easing: 'easeOutQuint'
+            });
+
+            // Create initial floating hearts for main content (not on login page)
+            createInitialHearts(15);
+            // Create decorative shapes and animate main content entrance
+            createDecorShapes(6);
+            animateMainContentEntrance();
+            // Add lovely background radial and petals
+            if (typeof createLovelyBackground === 'function') createLovelyBackground();
+            // Floating hearts animation
+            anime({
+                targets: '.heart',
+                translateY: [0, -50],
+                opacity: [0.7, 0],
+                duration: 3000,
+                delay: anime.stagger(100),
+                loop: true,
+                easing: 'easeInOutSine'
+            });
+        });
+        function showSuccessMessage() {
+            const messageElement = document.getElementById('success-message');
+            const buttonElement = document.getElementById('close-modal');
+            
+            let i = 0;
+            let currentLine = 0;
+            const lines = successMessage.split('\n');
+            
+            function typeWriter() {
+                if (currentLine < lines.length) {
+                    if (i <= lines[currentLine].length) {
+                        let currentText = '';
+                        for (let l = 0; l < currentLine; l++) {
+                            currentText += lines[l] + '<br>';
+                        }
+                        currentText += lines[currentLine].substring(0, i);
+                        messageElement.innerHTML = currentText;
+                        i++;
+                        setTimeout(typeWriter, 50);
+                    } else {
+                        currentLine++;
+                        i = 0;
+                        setTimeout(typeWriter, 300);
+                    }
+                } else {
+                    // Show close button only after all text has been typed
+                    if (currentLine >= lines.length) {
+                        buttonElement.classList.remove('hidden');
+                            // add entrance animation class then let CSS handle timing
+                            const btn = document.getElementById('close-modal');
+                            if (btn) {
+                                btn.classList.remove('hidden');
+                                btn.classList.add('cta-in');
+                                // remove the class after the animation to keep hover state clean
+                                setTimeout(() => btn.classList.remove('cta-in'), 900);
+                            }
+                    }
+                }
+            }
+typeWriter();
+        }
+        // Tab switching with animations
+        document.addEventListener('DOMContentLoaded', function() {
+            // Smooth tab switch helper: animate hide then show
+            // switchTabs now hides any other visible tab panels and shows the requested one
+            function switchTabs(showId) {
+                const panels = ['letter-content', 'reminders-content', 'interactive-content'];
+                const showEl = document.getElementById(showId);
+                if (!showEl) return;
+                // find currently visible panel (if any)
+                const visible = panels.map(id => document.getElementById(id)).find(el => el && !el.classList.contains('hidden'));
+                if (visible && visible.id !== showId) {
+                    anime({
+                        targets: visible,
+                        opacity: [1, 0],
+                        translateY: [0, 10],
+                        duration: 260,
+                        easing: 'easeInQuad',
+                        complete: function() {
+                            visible.classList.add('hidden');
+                            // show incoming
+                            showEl.classList.remove('hidden');
+                            anime({
+                                targets: showEl,
+                                opacity: [0, 1],
+                                translateY: [10, 0],
+                                duration: 420,
+                                easing: 'easeOutQuad'
+                            });
+                        }
+                    });
+                } else if (visible && visible.id === showId) {
+                    // already showing
+                    return;
+                } else {
+                    // nothing visible, just show
+                    showEl.classList.remove('hidden');
+                    anime({
+                        targets: showEl,
+                        opacity: [0, 1],
+                        translateY: [10, 0],
+                        duration: 420,
+                        easing: 'easeOutQuad'
+                    });
+                }
+            }
+
+            document.getElementById('letter-tab').addEventListener('click', function() {
+                switchTabs('letter-content');
+                this.classList.add('tab-active');
+                document.getElementById('reminders-tab').classList.remove('tab-active');
+                document.getElementById('interactive-tab').classList.remove('tab-active');
+                // reset interactive when leaving the tab
+                if (typeof resetInteractive === 'function') resetInteractive();
+            });
+
+            document.getElementById('reminders-tab').addEventListener('click', function() {
+                switchTabs('reminders-content');
+                this.classList.add('tab-active');
+                document.getElementById('letter-tab').classList.remove('tab-active');
+                document.getElementById('interactive-tab').classList.remove('tab-active');
+                // reset interactive when leaving the tab
+                if (typeof resetInteractive === 'function') resetInteractive();
+            });
+
+            // Interactive tab click
+            const interactiveTab = document.getElementById('interactive-tab');
+                if (interactiveTab) {
+                interactiveTab.addEventListener('click', function() {
+                    switchTabs('interactive-content');
+                    this.classList.add('tab-active');
+                    document.getElementById('letter-tab').classList.remove('tab-active');
+                    document.getElementById('reminders-tab').classList.remove('tab-active');
+                    // lazy init interactive behaviors
+                    if (typeof initInteractive === 'function') initInteractive();
+                    // whenever user opens the interactive tab, ensure No button returns to its starting place
+                    if (typeof resetRunAway === 'function') resetRunAway(noBtn);
+                });
+            }
+            // Open letter
+const letterContent = `Nhân dịp 20 tháng 10 thì Bảo cũng xin gửi những lời chúc tốt đẹp nhất. Xin chúc cho Anh luôn hạnh phúc, lúc nào cũng vui vẻ, và luôn thành công trong con đường mà mình đã chọn.
+
+Bảo thì cũng không biết tặng quà gì cho hợp với Anh cả, nên là Bảo chọn tự làm món quà nhỏ này mong rằng Anh sẽ thích nó, tuy nó không đắt tiền hay một thứ gì đó lãng mạng nhưng Bảo nghĩ món quà nhỏ này sẽ giúp Anh vui hơn trong ngày lễ này. 
+
+Sau lần gặp Anh ở ngoài đời hồi tháng 7 chưa bao giờ Bảo thấy mình muốn trở nên tốt hơn như bây giờ. Bảo cũng chưa từng mở lòng với ai nhiều đến mức này, mặc dù Bảo biết kết quả nó là 50/50 những mà Bảo vẫn muốn tử tế đối với người bảo thương cho đến lúc cuối, cho dù kết quả nó có ra sao đi chăng nữa thì bảo vẫn vui khi đã giữ đúng lời hứa. Nên là cảm ơn Anh rất nhiều vì đã làm Bảo có động lực để thay đổi bản thân, mặc dù chị cũng đâm thằng em này nhiều nhát đau + đớn 🥲 nhưng vẫn chịu được.
+
+Nhớ lời Bảo nói nè, đừng bao giờ so sánh bản thân mình với người khác nhen, cuộc đời của mỗi người nó giống như thanh timeline trong edit video vậy, không có ai bắt đoạn cao trào hay đoạn kết thúc video phải là ở phút thứ bao nhiêu cả, cho nên là cứ sống làm sao mà sau này mình cảm thấy không hối tiếc là được. Bảo thấy Anh làm được nhiều thứ mà Bảo chưa chắc đã làm được giống như là tham gia văn nghệ của trường, nấu ăn, hay là chăm cháu này. Nên cứ là chính mình nhen, hôm bữa em thấy chị nói áp lực với bạn bè cùng trang lứa là em thấy cũng cũng á 😇. 
+
+Tâm sự cũng dài rồi hen, hy vọng Anh có 1 ngày thứ hai thật ý nghĩa và vui vẻ, mặc dù hôm nay là ngày đầu tuần 😂`;
+            document.getElementById('envelope').addEventListener('click', function() {
+this.classList.add('hidden');
+            document.getElementById('letter-text').classList.remove('hidden');
+            
+            // Typing animation
+            const typedTextElement = document.getElementById('typed-text');
+            typedTextElement.classList.add('typed');
+            
+            let i = 0;
+            const typing = setInterval(() => {
+                typedTextElement.innerHTML = letterContent.substring(0, i);
+                i++;
+                if (i > letterContent.length) {
+                    clearInterval(typing);
+                    typedTextElement.classList.remove('typed');
+                    // Reveal closing phrase when typing completes
+                    const closing = document.getElementById('closing-phrase');
+                    if (closing) {
+                        // small delay so it feels like a natural reveal after typing
+                        setTimeout(() => {
+                            closing.style.opacity = '1';
+                            closing.style.transform = 'translateY(0) scale(1)';
+                            closing.setAttribute('aria-hidden', 'false');
+                        }, 160);
+                    }
+                }
+            }, 30);
+        });
+            // Add floating hearts
+            document.getElementById('add-hearts').addEventListener('click', function() {
+for (let i = 0; i < 10; i++) {
+                createHeart();
+            }
+        });
+                // Interactive buttons behaviors (lazy-initialized)
+                const yesBtn = document.getElementById('yes-btn');
+                const noBtn = document.getElementById('no-btn');
+                const interactiveHint = document.getElementById('interactive-hint');
+                function createExplosion(x, y, count = 18) {
+                    for (let i = 0; i < count; i++) {
+                        const e = document.createElement('div');
+                        e.className = 'explosion-heart';
+                        e.innerHTML = ['💞','💕','💖'][Math.floor(Math.random()*3)];
+                        e.style.left = x + 'px';
+                        e.style.top = y + 'px';
+                        e.style.opacity = '1';
+                        e.style.transform = `translate(-50%, -50%) scale(${0.8 + Math.random()*0.8})`;
+                        document.body.appendChild(e);
+                        const angle = Math.random() * Math.PI * 2;
+                        const dist = 60 + Math.random() * 140;
+                        const dx = Math.cos(angle) * dist;
+                        const dy = Math.sin(angle) * dist - 20;
+                        anime({
+                            targets: e,
+                            translateX: dx,
+                            translateY: dy,
+                            scale: [1, 0.6],
+                            opacity: [1, 0],
+                            duration: 900 + Math.random() * 600,
+                            easing: 'easeOutCubic',
+                            complete: function() { e.remove(); }
+                        });
+                    }
+                }
+                // make No button run away (setupRunAway defined below)
+                function setupRunAway(btn) {
+                    if (!btn) return;
+                    // constrain movement to the main-content area (assumed "pink background")
+                    const container = document.getElementById('main-content');
+                    const useContainer = !!(container && container.getBoundingClientRect);
+
+                    // ensure the container is positioned for absolute children
+                    if (useContainer) container.style.position = container.style.position || 'relative';
+
+                    // if we've already attached handlers, don't recreate them — keep references
+                    if (!btn._runaway) {
+                        let busy = false;
+
+                        function moveToRandom() {
+                            if (busy) return;
+                            busy = true;
+                            const padding = 12;
+                            const btnW = btn.offsetWidth;
+                            const btnH = btn.offsetHeight;
+
+                            let minX, maxX, minY, maxY;
+                            if (useContainer) {
+                                const cRect = container.getBoundingClientRect();
+                                minX = padding;
+                                maxX = Math.max(padding, cRect.width - btnW - padding);
+                                minY = padding + 20; // keep some top spacing
+                                maxY = Math.max(padding, cRect.height - btnH - padding);
+                            } else {
+                                const vw = Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0);
+                                const vh = Math.max(document.documentElement.clientHeight || 0, window.innerHeight || 0);
+                                minX = padding;
+                                maxX = Math.max(padding, vw - btnW - padding);
+                                minY = padding + 80;
+                                maxY = Math.max(padding, vh - btnH - padding - 40);
+                            }
+
+                            const targetX = Math.floor(minX + Math.random() * (maxX - minX));
+                            const targetY = Math.floor(minY + Math.random() * (maxY - minY));
+
+                            anime({
+                                targets: btn,
+                                left: targetX + 'px',
+                                top: targetY + 'px',
+                                // faster reaction: 220 - 420ms
+                                duration: 220 + Math.random() * 200,
+                                easing: 'easeOutQuad',
+                                complete: function() { busy = false; }
+                            });
+                        }
+
+                        // prepare: convert the button from normal flow to absolute positioning
+                        function prepareAndRun() {
+                            // compute current on-screen position
+                            const rect = btn.getBoundingClientRect();
+                            if (useContainer) {
+                                const cRect = container.getBoundingClientRect();
+                                const relLeft = rect.left - cRect.left;
+                                const relTop = rect.top - cRect.top;
+                                btn.style.position = 'absolute';
+                                btn.style.left = relLeft + 'px';
+                                btn.style.top = relTop + 'px';
+                            } else {
+                                // fallback to fixed positioning relative to viewport
+                                btn.style.position = 'fixed';
+                                btn.style.left = rect.left + 'px';
+                                btn.style.top = rect.top + 'px';
+                            }
+                            btn.style.zIndex = 60;
+
+                            // after positioning, run the animation
+                            moveToRandom();
+
+                            // replace initial handler with direct move handler for subsequent events
+                            btn.removeEventListener('mouseenter', prepareAndRun);
+                            btn.addEventListener('mouseenter', moveToRandom);
+                        }
+
+                        function clickHandler(e) {
+                            e.preventDefault();
+                            const pos = window.getComputedStyle(btn).position;
+                            if (pos !== 'absolute' && pos !== 'fixed') {
+                                prepareAndRun();
+                            } else {
+                                moveToRandom();
+                            }
+                        }
+
+                        // store handlers so we can remove/re-attach later
+                        btn._runaway = {
+                            moveToRandom,
+                            prepareAndRun,
+                            clickHandler
+                        };
+
+                        // attach initial listener: first mouseenter prepares then moves
+                        btn.addEventListener('mouseenter', prepareAndRun);
+                        // click should also prepare/move if user taps
+                        btn.addEventListener('click', clickHandler);
+                    }
+                }
+
+                // Helper to set emphasized interactive hint text with a pop animation
+                function setInteractiveHint(text) {
+                    if (!interactiveHint) return;
+                    // set plain text then apply emphasis class to preserve accessibility
+                    interactiveHint.textContent = text;
+                    interactiveHint.classList.remove('interactive-hint-pop');
+                    // ensure class for visual emphasis
+                    interactiveHint.classList.add('interactive-hint-strong');
+                    // force reflow to restart animation
+                    void interactiveHint.offsetWidth;
+                    interactiveHint.classList.add('interactive-hint-pop');
+                    // remove pop class after animation completes but keep the strong style
+                    clearTimeout(interactiveHint._popTimeout);
+                    interactiveHint._popTimeout = setTimeout(() => {
+                        interactiveHint.classList.remove('interactive-hint-pop');
+                    }, 620);
+                }
+
+                // Reset the No button to its original in-flow state and reattach initial handlers
+                function resetRunAway(btn) {
+                    if (!btn || !btn._runaway) return;
+                    const h = btn._runaway;
+                    // remove any move handler and click handler
+                    btn.removeEventListener('mouseenter', h.moveToRandom);
+                    btn.removeEventListener('mouseenter', h.prepareAndRun);
+                    btn.removeEventListener('click', h.clickHandler);
+
+                    // clear inline positioning so it goes back to layout flow
+                    btn.style.position = '';
+                    btn.style.left = '';
+                    btn.style.top = '';
+                    btn.style.zIndex = '';
+
+                    // ensure transitions don't leave it mid-animation
+                    anime.remove(btn);
+
+                    // reattach initial handlers (prepareAndRun will be used on first hover)
+                    btn.addEventListener('mouseenter', h.prepareAndRun);
+                    btn.addEventListener('click', h.clickHandler);
+                }
+                // lazy init so the No button stays in normal flow until the user opens the tab
+                let interactiveInitialized = false;
+                function initInteractive() {
+                    if (interactiveInitialized) return;
+                    interactiveInitialized = true;
+
+                    // Ensure No button looks normal when tab opens
+                    if (noBtn) {
+                        noBtn.style.position = ''; // revert to stylesheet/static flow
+                        noBtn.style.left = '';
+                        noBtn.style.top = '';
+                        noBtn.style.zIndex = '';
+                    }
+
+                    if (yesBtn) {
+                        // attach yes handler (store reference so we can remove later if needed)
+                        const yesHandler = function(e) {
+                            const rect = yesBtn.getBoundingClientRect();
+                            createExplosion(rect.left + rect.width/2, rect.top + rect.height/2, 24);
+                            if (interactiveHint) setInteractiveHint('Cái này vui thôi nhen, những mà có thì càng tốt 😁');
+                        };
+                        yesBtn.addEventListener('click', yesHandler);
+                        // remember handler for potential cleanup
+                        yesBtn._interactiveHandler = yesHandler;
+                    }
+                    // setup run-away behavior when user first interacts with No
+                    setupRunAway(noBtn);
+                }
+
+                // Reset the entire interactive tab to its original starting state
+                function resetInteractive() {
+                    // clear any explosion hearts lingering in the DOM
+                    document.querySelectorAll('.explosion-heart').forEach(e => e.remove());
+
+                    // reset interactive hint
+                    if (interactiveHint) setInteractiveHint('Câu trả lời này được gửi thẳng tới chủ của web này 😈');
+
+                    // reset Yes button: remove any added handler and restore default state
+                    if (yesBtn) {
+                        if (yesBtn._interactiveHandler) {
+                            yesBtn.removeEventListener('click', yesBtn._interactiveHandler);
+                            delete yesBtn._interactiveHandler;
+                        }
+                        // ensure it's not visually altered
+                        anime.remove(yesBtn);
+                        yesBtn.style.transform = '';
+                        yesBtn.style.opacity = '';
+                    }
+
+                    // reset No button: remove animations, clear inline styles and reattach initial handlers
+                    if (noBtn) {
+                        // remove any positional styles and animations
+                        anime.remove(noBtn);
+                        // use resetRunAway to clear inline positioning and reattach handlers
+                        if (typeof resetRunAway === 'function') resetRunAway(noBtn);
+                        // ensure it shows in the flow
+                        noBtn.style.position = '';
+                        noBtn.style.left = '';
+                        noBtn.style.top = '';
+                        noBtn.style.zIndex = '';
+                    }
+
+                    // allow initInteractive to be re-run if needed
+                    interactiveInitialized = false;
+                }
+            function createHeart() {
+const heart = document.createElement('div');
+            heart.innerHTML = '❤️';
+            heart.className = 'heart';
+            heart.style.left = Math.random() * 100 + 'vw';
+            heart.style.top = Math.random() * 100 + 'vh';
+            heart.style.fontSize = (Math.random() * 20 + 10) + 'px';
+            document.body.appendChild(heart);
+            
+            anime({
+                targets: heart,
+                translateY: [0, -100],
+                opacity: [1, 0],
+                duration: 2000,
+                easing: 'easeOutQuad',
+                complete: function() {
+                    heart.remove();
+                }
+            });
+        }
+            // NOTE: initial floating hearts are created only after unlocking the main content
+            // to avoid showing animated hearts on the login screen.
+            function createInitialHearts(count = 15) {
+                for (let i = 0; i < count; i++) {
+                    const heart = document.createElement('div');
+                    heart.innerHTML = ['❤️', '💕', '💖', '💗', '💓'][Math.floor(Math.random() * 5)];
+                    heart.className = 'heart';
+                    heart.style.left = Math.random() * 100 + 'vw';
+                    heart.style.top = Math.random() * 100 + 'vh';
+                    heart.style.fontSize = (Math.random() * 15 + 10) + 'px';
+                    heart.style.animationDelay = Math.random() * 5 + 's';
+                    document.body.appendChild(heart);
+                }
+            }
+        });
+    </script>
+    <script>
+        // Reminders as clickable gift boxes with persistent opened state
+        (function() {
+            const reminders = [
+                { id: 'r1', title: 'Lời nhắn 1', icon: '🤭', text: 'Có gì buồn kể Bảo nghe nha, kể chuyện trên trời hay dưới đất cũng được, Bảo nghe hết.' },
+                { id: 'r2', title: 'Lời nhắn 2', icon: '😴', text: 'Có làm gì thì cũng ngủ sớm hơn một chút nha.' },
+                { id: 'r3', title: 'Lời nhắn 3', icon: '💐', text: 'Luôn vui vẻ cho tui nhen.' },
+                { id: 'r4', title: 'Lời nhắn 4', icon: '🤗', text: 'Đừng quá khắt khe với bản thân mình quá nha.' },
+                { id: 'r5', title: 'Lời nhắn 5', icon: '💖', text: 'Nhớ nè, Bảo luôn ở đây vì Anh.' },
+                { id: 'r6', title: 'Lời nhắn 6', icon: '🌟', text: 'Lúc nào cũng để ý sức khỏe cho tui nhen' }
+            ];
+
+            // start all gifts closed on each page load; do not persist across reloads (behave like the envelope)
+            const opened = new Set();
+
+            const grid = document.getElementById('reminders-grid');
+            if (!grid) return;
+
+            function render() {
+                grid.innerHTML = '';
+                reminders.forEach(r => {
+                    const gift = document.createElement('div');
+                    gift.className = 'gift';
+                    gift.dataset.id = r.id;
+
+                    const cover = document.createElement('div');
+                    cover.className = 'cover';
+                    const icon = document.createElement('div'); icon.className = 'icon'; icon.textContent = r.icon;
+                    const label = document.createElement('div'); label.className = 'label'; label.textContent = r.title;
+                    const peek = document.createElement('div'); peek.className = 'peek'; peek.textContent = opened.has(r.id) ? 'Mở' : 'Chưa mở';
+                    if (opened.has(r.id)) peek.classList.add('open');
+
+                    cover.appendChild(icon); cover.appendChild(label); cover.appendChild(peek);
+
+                    const msg = document.createElement('div'); msg.className = 'gift-msg'; msg.textContent = r.text;
+
+                    if (opened.has(r.id)) {
+                        gift.classList.add('opened');
+                    }
+
+                    gift.appendChild(cover);
+                    gift.appendChild(msg);
+
+                    // make focusable for keyboard users
+                    gift.setAttribute('tabindex', '0');
+
+                    gift.addEventListener('click', function() {
+                        const id = this.dataset.id;
+                        if (opened.has(id)) return; // already opened
+                        opened.add(id);
+                        // play unbox animation then reveal
+                        this.classList.add('unbox');
+                        // ensure opened state shows after small delay so animation looks natural
+                        setTimeout(() => {
+                            this.classList.remove('unbox');
+                            this.classList.add('opened');
+                            const p = this.querySelector('.peek'); if (p) { p.textContent = 'Mở'; p.classList.add('open'); }
+                        }, 360);
+                    });
+
+                    // micro-interaction: pulse on hover/focus/touch
+                    let animating = false;
+                    function pulse() {
+                        if (animating) return;
+                        animating = true;
+                        anime({
+                            targets: gift,
+                            translateY: [-2, -8, -4, -6],
+                            duration: 420,
+                            easing: 'easeOutQuad',
+                            complete() { animating = false; }
+                        });
+                    }
+                    gift.addEventListener('mouseenter', pulse);
+                    gift.addEventListener('focus', pulse);
+                    gift.addEventListener('touchstart', function onTouch(e) { pulse(); gift.removeEventListener('touchstart', onTouch); }, { passive: true });
+
+                    grid.appendChild(gift);
+                });
+            }
+
+            // Render on load
+            render();
+
+            // Expose a helper to reset (dev)
+            window._reminders = { render, opened, saveOpened };
+        })();
+    </script>
+    <!-- Global Back Button -->
+<button id="global-back-btn" class="fixed top-4 left-4 bg-pink-500 hover:bg-pink-600 text-white font-medium py-2 px-4 rounded-full transition z-50 hidden">
+        ← Quay lại màn hình chính
+    </button>
+
+    
+
+    <script>
+        // Global back button functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const globalBackBtn = document.getElementById('global-back-btn');
+            
+            // Show/hide back button based on current screen
+            function updateBackButton() {
+                if (!document.getElementById('password-screen').classList.contains('hidden') || 
+                    document.getElementById('success-modal').classList.contains('hidden') === false) {
+                    globalBackBtn.classList.add('hidden');
+                } else {
+                    globalBackBtn.classList.remove('hidden');
+                }
+            }
+// Initial update
+            updateBackButton();
+
+            // Back button click handler — reset entire UI to defaults
+            globalBackBtn.addEventListener('click', function() {
+                // Hide main screens and show password screen
+                const successModal = document.getElementById('success-modal');
+                if (successModal) successModal.classList.add('hidden');
+                const main = document.getElementById('main-content');
+                if (main) main.classList.add('hidden');
+                const pwd = document.getElementById('password-screen');
+                if (pwd) pwd.classList.remove('hidden');
+
+                // Clear password input and any hint text
+                const pwdInput = document.getElementById('password-input'); if (pwdInput) pwdInput.value = '';
+                const hintEl = document.getElementById('hint'); if (hintEl) { hintEl.textContent = ''; hintEl.style.display = 'none'; }
+
+                // Hide global back button itself
+                globalBackBtn.classList.add('hidden');
+
+                // Reset tabs to default (letter tab active)
+                const letterContent = document.getElementById('letter-content'); if (letterContent) letterContent.classList.remove('hidden');
+                const remindersContent = document.getElementById('reminders-content'); if (remindersContent) remindersContent.classList.add('hidden');
+                const interactiveContent = document.getElementById('interactive-content'); if (interactiveContent) interactiveContent.classList.add('hidden');
+                const letterTab = document.getElementById('letter-tab'); if (letterTab) letterTab.classList.add('tab-active');
+                const remindersTab = document.getElementById('reminders-tab'); if (remindersTab) remindersTab.classList.remove('tab-active');
+                const interactiveTab = document.getElementById('interactive-tab'); if (interactiveTab) interactiveTab.classList.remove('tab-active');
+
+                // Reset letter UI: hide typed text, show envelope, hide closing phrase
+                const letterText = document.getElementById('letter-text'); if (letterText) letterText.classList.add('hidden');
+                const envelope = document.getElementById('envelope'); if (envelope) envelope.classList.remove('hidden');
+                const closing = document.getElementById('closing-phrase'); if (closing) { closing.style.opacity = '0'; closing.style.transform = 'translateY(8px) scale(0.98)'; closing.setAttribute('aria-hidden','true'); }
+
+                // Remove any animated hearts (initial or explosion)
+                document.querySelectorAll('.explosion-heart, .heart').forEach(e => e.remove());
+
+                // Reset interactive tab state
+                try {
+                    if (typeof resetInteractive === 'function') resetInteractive();
+                    // ensure No button is restored
+                    const noBtn = document.getElementById('no-btn');
+                    if (noBtn && typeof resetRunAway === 'function') resetRunAway(noBtn);
+                    if (typeof setInteractiveHint === 'function') setInteractiveHint('Câu trả lời này được gửi thẳng tới chủ của web này 😈');
+                } catch (e) { /* ignore if functions unavailable */ }
+
+                // Reset reminders: close all opened gifts and re-render
+                try {
+                    if (window._reminders && window._reminders.opened) {
+                        if (typeof window._reminders.opened.clear === 'function') window._reminders.opened.clear();
+                        else window._reminders.opened = new Set();
+                        if (typeof window._reminders.render === 'function') window._reminders.render();
+                    }
+                } catch (e) { /* ignore */ }
+
+                // Hide any visible close-modal CTA
+                const closeBtn = document.getElementById('close-modal'); if (closeBtn) closeBtn.classList.add('hidden');
+            });
+
+            // Update back button whenever screens change
+            document.getElementById('submit-btn').addEventListener('click', updateBackButton);
+            document.getElementById('close-modal').addEventListener('click', updateBackButton);
+        });
+    </script>
+    <script>
+        // Forgot password toast
+        document.addEventListener('DOMContentLoaded', function() {
+            const forgotBtn = document.getElementById('forgot-btn');
+            const toast = document.getElementById('forgot-toast');
+            let toastTimeout = null;
+            if (forgotBtn && toast) {
+                forgotBtn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    // show centered warning
+                    toast.classList.remove('opacity-0');
+                    toast.classList.add('opacity-100');
+                        // add a subtle pulse to the button while the toast shows
+                        forgotBtn.classList.add('pulse');
+                    // hide after 2.5s
+                    clearTimeout(toastTimeout);
+                    toastTimeout = setTimeout(() => {
+                        toast.classList.remove('opacity-100');
+                        toast.classList.add('opacity-0');
+                            forgotBtn.classList.remove('pulse');
+                    }, 2500);
+                });
+            }
+        });
+    </script>
+    <script>
+        // Decorative shapes for main content
+        function createDecorShapes(count = 6) {
+            const container = document.getElementById('main-decor');
+            if (!container) return;
+            container.innerHTML = '';
+            for (let i = 0; i < count; i++) {
+                const el = document.createElement('div');
+                el.className = 'decor-shape decor-blob';
+                const size = 80 + Math.random() * 160;
+                el.style.width = size + 'px';
+                el.style.height = (size * (0.6 + Math.random() * 0.8)) + 'px';
+                el.style.left = (Math.random() * 100) + '%';
+                el.style.top = (Math.random() * 60) + '%';
+                el.style.background = `linear-gradient(135deg, rgba(255,105,180,0.12), rgba(139,92,246,0.12))`;
+                el.style.transform = `translate(-50%, -50%) scale(${0.8 + Math.random() * 0.8})`;
+                el.style.transition = `transform ${600 + Math.random()*600}ms ease, opacity ${800 + Math.random()*600}ms ease`;
+                container.appendChild(el);
+                // animate in
+                setTimeout(() => {
+                    el.style.opacity = 0.22;
+                    el.style.transform = `translate(-50%, -50%) scale(1)`;
+                }, 150 + i * 120);
+            }
+        }
+
+        function animateMainContentEntrance() {
+            // Stagger in title, tabs and card
+            const title = document.querySelector('#main-content h1');
+            const tabs = document.querySelectorAll('#main-content .flex.justify-center > button');
+            const letter = document.getElementById('letter-content');
+            [title, ...tabs, letter].forEach((el, idx) => {
+                if (!el) return;
+                el.classList.add('fade-up');
+                setTimeout(() => el.classList.add('show'), 180 * idx);
+            });
+            // gently bring footer text
+            setTimeout(() => {
+                document.querySelectorAll('.reminder-item').forEach((it, i) => {
+                    it.classList.add('fade-up');
+                    setTimeout(() => it.classList.add('show'), 300 * i + 800);
+                });
+            }, 600);
+        }
+        function createLovelyBackground() {
+            const decor = document.getElementById('main-decor');
+            if (!decor) return;
+            // add radial layer
+            let radial = decor.querySelector('.lovely-radial');
+            if (!radial) {
+                radial = document.createElement('div');
+                radial.className = 'lovely-radial';
+                decor.appendChild(radial);
+                setTimeout(() => radial.style.opacity = '1', 120);
+            }
+            // petals
+            for (let i = 0; i < 10; i++) {
+                const p = document.createElement('div');
+                p.className = 'lovely-petal';
+                const left = 15 + Math.random() * 70;
+                const top = 60 + Math.random() * 30;
+                p.style.left = left + '%';
+                p.style.top = top + '%';
+                p.style.width = (8 + Math.random() * 18) + 'px';
+                p.style.height = (12 + Math.random() * 24) + 'px';
+                decor.appendChild(p);
+                setTimeout(() => p.classList.add('petal-float'), 200 + i * 160);
+                setTimeout(() => p.remove(), 4600 + i * 120);
+            }
+        }
+    </script>
+    <script>
+        // Ensure all DOM is loaded before executing
+        document.addEventListener('DOMContentLoaded', function() {
+            // Password verification
+            const correctPassword = "17072005";
+            const hints = [
+                "Mật khẩu gồm 8 số 😘",
+                "8 số liên quan tới Anh 💕",
+                "Ngày Anh sinh ra thì sao ta 💌",
+                "DDMMYYYY 😉",
+                "17072005 nhen ❤️"
+            ];
+            let hintIndex = 0;
+            
+            document.getElementById('submit-btn').addEventListener('click', checkPassword);
+            document.getElementById('password-input').addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') checkPassword();
+            });
+            
+            function checkPassword() {
+                const input = document.getElementById('password-input').value;
+                const hintElement = document.getElementById('hint');
+                if (input === correctPassword) {
+                    document.getElementById('password-screen').classList.add('hidden');
+                    document.getElementById('success-modal').classList.remove('hidden');
+                    document.getElementById('back-button').classList.remove('hidden');
+                    showSuccessMessage();
+                } else {
+                    // Only show a hint when user has actually typed something
+                    if (input && input.toString().trim().length > 0) {
+                        hintElement.textContent = hints[hintIndex % hints.length];
+                        hintIndex++;
+                    } else {
+                        hintElement.textContent = '';
+                    }
+                    
+                    anime({
+                        targets: '#password-input',
+                        translateX: [10, -10, 10, -10, 0],
+                        duration: 500
+                    });
+                }
+            }
+        });
+    </script>
+</body>
+</html>
